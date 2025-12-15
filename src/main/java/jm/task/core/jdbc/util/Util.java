@@ -14,22 +14,27 @@ public class Util {
     private static final String PASSWORD = "123123";
     private static final String URL = "jdbc:mysql://localhost:3306/lesson";
 
-    public SessionFactory getSessionFactory() {
-        try {
-            Configuration cfg = new Configuration();
-            cfg.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-            cfg.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/lesson");
-            cfg.setProperty("hibernate.connection.username", "root");
-            cfg.setProperty("hibernate.connection.password", "123123");
-            cfg.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-            cfg.addAnnotatedClass(User.class);
-            ServiceRegistry srt = new StandardServiceRegistryBuilder()
-                    .applySettings(cfg.getProperties()).build();
+    public SessionFactory sessionFactory;
 
-            return cfg.buildSessionFactory(srt);
-        }catch (Exception e) {
-            throw new RuntimeException("ошибка H");
+    public SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
+            try {
+                Configuration cfg = new Configuration();
+                cfg.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
+                cfg.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/lesson");
+                cfg.setProperty("hibernate.connection.username", "root");
+                cfg.setProperty("hibernate.connection.password", "123123");
+                cfg.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
+                cfg.addAnnotatedClass(User.class);
+                ServiceRegistry srt = new StandardServiceRegistryBuilder()
+                        .applySettings(cfg.getProperties()).build();
+
+                return cfg.buildSessionFactory(srt);
+            }catch (Exception e) {
+                throw new RuntimeException("ошибка H");
+            }
         }
+        return sessionFactory;
     }
 
     public static Connection getConnection() {
