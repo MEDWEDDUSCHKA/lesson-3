@@ -28,9 +28,6 @@ public class UserDaoHibernateImpl implements UserDao {
             session.createNativeQuery(CREATE_TABLE_SQL).executeUpdate();
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new RuntimeException("Ошибка при созданий", e);
         }
     }
@@ -43,9 +40,6 @@ public class UserDaoHibernateImpl implements UserDao {
             session.createNativeQuery(DROP_TABLE_SQL).executeUpdate();
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new RuntimeException("Ошибка дропа", e);
         }
     }
